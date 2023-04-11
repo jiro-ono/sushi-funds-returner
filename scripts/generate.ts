@@ -1,20 +1,26 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { parseBalanceMap } from "./utils/parse-balance-map";
+import { BigNumber } from "ethers";
 
-const filename = "1.json";
+const filename = "arbitrum_1.json";
+
+interface Input {
+  user: string;
+  token: string;
+  value: string; // Decimal string
+}
 
 // Record<user, Record<token, amount>>
 function getInput(filename: string) {
   const input = JSON.parse(
     readFileSync(`./scripts/inputs/${filename}`, "utf8")
-  ) as Record<string, Record<string, string>>;
-  return Object.keys(input).flatMap((user) =>
-    Object.keys(input[user]).map((token) => ({
-      user,
-      token,
-      amount: input[user][token],
-    }))
-  );
+  ) as Input[];
+
+  return input.map((e) => ({
+    user: e.user,
+    token: e.token,
+    amount: BigNumber.from(e.value).toHexString(), // !
+  }));
 }
 
 async function main() {
