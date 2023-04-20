@@ -33,9 +33,11 @@ contract SushiFundsReturner is Ownable {
         claimedBitMap[claimedWordIndex] = claimedBitMap[claimedWordIndex] | (1 << claimedBitIndex);
     }
 
-    function claim(uint256 index, address account, uint256 amount, address token, bytes32[] calldata merkleProof) external {
+    function claim(uint256 index, uint256 amount, address token, bytes32[] calldata merkleProof) external {
         require(!frozen, 'MerkleDistributor: Claiming is frozen.');
         require(!isClaimed(index), 'MerkleDistributor: Drop already claimed.');
+
+        address account = msg.sender;
 
         // Verify the merkle proof.
         bytes32 node = keccak256(abi.encodePacked(index, account, amount, token));
