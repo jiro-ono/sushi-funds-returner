@@ -2,7 +2,19 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { parseBalanceMap } from "./utils/parse-balance-map";
 import { BigNumber } from "ethers";
 
-const filename = "arbitrum_1.json";
+//const filename = "arbitrum_1.json";
+
+const networks = [
+  "arbitrum",
+  "avalanche",
+  "boba",
+  "bsc",
+  "ethereum",
+  "fantom",
+  "nova",
+  "optimism",
+  "polygon",
+]
 
 interface Input {
   user: string;
@@ -24,17 +36,21 @@ function getInput(filename: string) {
 }
 
 async function main() {
-  const input = getInput(filename);
-  const output = parseBalanceMap(input);
+  for (const network of networks) {
+    let inputFile = network + "-token-claims.json"
+    let outputFile = network + "-tree.json"
+    const input = getInput(inputFile);
+    const output = parseBalanceMap(input);
 
-  if (!existsSync("./scripts/outputs")) {
-    mkdirSync("./scripts/outputs");
+    if (!existsSync("./scripts/outputs")) {
+      mkdirSync("./scripts/outputs");
+    }
+
+    writeFileSync(
+      `./scripts/outputs/${outputFile}`,
+      JSON.stringify(output, null, 2)
+    );
   }
-
-  writeFileSync(
-    `./scripts/outputs/${filename}`,
-    JSON.stringify(output, null, 2)
-  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
