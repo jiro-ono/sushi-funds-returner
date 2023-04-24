@@ -1,0 +1,14 @@
+[
+  {
+    "token": "0xd4d42f0b6def4ce0383636770ef773390d85c61a",
+    "user": "0x4d98e21d2C5d9D9a30756cDe92F2629E6aE26C85",
+    "chain": "arbitrum",
+    "value": "1500000000000000000"
+  },
+  {
+    "token": "0xd4d42f0b6def4ce0383636770ef773390d85c61a",
+    "user": "0x4bb4c1B0745ef7B4642fEECcd0740deC417ca0a0",
+    "chain": "arbitrum",
+    "value": "1000000000000000000"
+  }
+]
